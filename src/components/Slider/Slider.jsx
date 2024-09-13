@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import {Slider as SliderAntD , ConfigProvider} from "antd";
+import { supportiveMonthsArr, supportiveYearArr } from "./extraDataKeeper";
 import useResponsive from "../../hooks/useResponsive";
 
 import './slider.css'
 
 function  Slider({minYear, maxYear, minMonth, maxMonth}) {
 
-  let supportiveMonthsArr = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл','авг', 'сен','окт','ноя', 'дек']
-  let supportiveYearArr = [0,1,2,3,4,5,6,7,8,9,10,11]
   const breackpoint = useResponsive([760])
 
   const [sliderSize, setSliderSize] = useState((maxYear+1 - minYear)*12)
@@ -26,26 +25,32 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
 
   useEffect(()=>{
     setShiftedRange(null)
+
     if (isYearsSlider) {
-      const slider = establishMarkers(maxYear, minYear, 'yearsMarks')
+      const slider = establishMarkers(maxYear, minYear)
       setSliderInfo(slider)
     }
+
     if (isMonthSlider) {
+      const min = sliderInfo[1][range[0]]
+      const max =sliderInfo[1][range[1]]
+
       if(sliderInfo[1].length - 1 === range[1]){
-        console.log('r')
-        const slider = establishMarkers(sliderInfo[1][range[1]] - 1 , sliderInfo[1][range[0]], 'monthsMarks')
+        const slider = establishMarkers(max - 1, min)
         setSliderInfo(slider)
       } else {
-        const slider = establishMarkers(sliderInfo[1][range[1]] , sliderInfo[1][range[0]], 'monthsMarks')
+        const slider = establishMarkers(max, min)
         setSliderInfo(slider)
       }
     }
+
   },[isYearsSlider,isMonthSlider,  minYear, maxYear,minMonth,maxMonth])
+
   useEffect(()=>{
     setRange([minMonth,maxMonth])
   },[minYear, maxYear,minMonth,maxMonth])
 
-  function establishMarkers(max, min, marks){
+  function establishMarkers(max, min){
 
     setSliderSize((max+1 - min)*12)
 
