@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import {Slider as SliderAntD } from "antd";
+import {Slider as SliderAntD , ConfigProvider} from "antd";
+import useResponsive from "../../hooks/useResponsive";
 
 import './slider.css'
 
@@ -7,6 +8,7 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
 
   let supportiveMonthsArr = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл','авг', 'сен','окт','ноя', 'дек']
   let supportiveYearArr = [0,1,2,3,4,5,6,7,8,9,10,11]
+  const breackpoint = useResponsive([760])
 
   const [sliderSize, setSliderSize] = useState((maxYear+1 - minYear)*12)
   const [marks, setMarks] = useState('yearsMarks')
@@ -20,7 +22,7 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
   let yearsArr = []
   let monthsArr = []
   const yearsMarks = {}
-  const monthsMarks = {}
+  let monthsMarks = {}
 
   useEffect(()=>{
     setShiftedRange(null)
@@ -63,13 +65,13 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
       const monthShift = (min - minYear)*12
       setShiftedRange([range[0]-monthShift, range[1]-monthShift])
 
-      monthsArr.map((month, index) => {
-        if(month === 'янв') {
-          monthsMarks[index] = yearsArr[index]
-        } else {
-          monthsMarks[index] = month
-        }
-      })
+        monthsArr.map((month, index) => {
+          if(month === 'янв') {
+            monthsMarks[index] = yearsArr[index]
+          } else {
+            monthsMarks[index] = month
+          }
+        })
     }
 
     return [yearsMarks, yearsArr, monthsArr, monthsMarks]
@@ -94,28 +96,42 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
   const formatter = (value) => `${sliderInfo[2][value]} ${sliderInfo[1][value]}`;
 
   return (
-    <div style={{
-      boxSizing:'border-box',
-      margin:'20px',
-    }}>
-      <SliderAntD
-        range
-        min={0}
-        max={sliderSize}
-        marks={marks === 'yearsMarks' ? sliderInfo[0] : sliderInfo[3]}
-        defaultValue={[3,44]}
-        value={shiftedRange || range || [minMonth,maxMonth]}
-        onChange={onChange}
-        tooltip={{
-          formatter,
+    <div className="slider-container">
+
+      <ConfigProvider
+        theme={{
+          components: {
+            Slider: {
+              trackBg:'#6FB6EC',
+              trackHoverBg:'#3A86BF'
+            },
+          },
         }}
-      />
-      <button onClick={showYearsSlider}>
-        Все года
-      </button>
-      <button onClick={showMonthsSlider}>
-        Mесяца
-      </button>
+      >
+        <SliderAntD
+          range
+          min={0}
+          max={sliderSize}
+          marks={marks === 'yearsMarks' ? sliderInfo[0] : sliderInfo[3]}
+          defaultValue={[3,44]}
+          value={shiftedRange || range || [minMonth,maxMonth]}
+          onChange={onChange}
+          tooltip={{
+            formatter,
+            color:'#3A86BF'
+          }}
+          vertical={breackpoint === 0 ? true : false}
+        />
+      </ConfigProvider>
+
+      <div className='slider-container__toggle-btns'>
+        <a onClick={showYearsSlider} className={isYearsSlider ? 'active' : ''}>
+          Все года
+        </a>
+        <a onClick={showMonthsSlider} className={isMonthSlider ? 'active' : ''}>
+          Mесяца
+        </a>
+      </div>
     </div>
   );
 }

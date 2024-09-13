@@ -1,0 +1,10 @@
+.date-picker {
+  margin: 30px;
+}
+
+@media (max-width:760px) {
+  .date-picker {
+    display: flex;
+    justify-content: center;
+  }
+}
