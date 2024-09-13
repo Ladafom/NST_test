@@ -48,6 +48,9 @@ function  Slider({minYear, maxYear, minMonth, maxMonth}) {
 
   useEffect(()=>{
     setRange([minMonth,maxMonth])
+    setIsYearsSlider(true)
+    setIsMonthSlider(false)
+    setMarks('yearsMarks')
   },[minYear, maxYear,minMonth,maxMonth])
 
   function establishMarkers(max, min){
