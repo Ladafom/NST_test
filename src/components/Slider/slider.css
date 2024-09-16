@@ -1,18 +1,14 @@
-.ant-slider-mark-text {
-  transform: translateX(-50%) rotate(-90deg) !important;
-  padding: 5px;
-}
-
-.ant-slider{
-  width: 100%;
-  transition: all 0.01s;
-}
 
 .slider-container {
-  margin: 30px;
+  margin: 70px 40px;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+}
+.slider-tooltip {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .slider-container__toggle-btns {
@@ -30,6 +26,7 @@
 .slider-container__toggle-btns > a:hover, .active{
   color: var(--blue) !important;
   text-decoration: underline;
+  text-underline-position: under;
 }
 
 

@@ -1,0 +1,20 @@
+.ant-slider-mark-text {
+  padding: 5px;
+}
+.ant-slider{
+  width: 100%;
+  transition: all 0.01s;
+}
+.ant-slider-dot {
+  display: none;
+}
+.ant-slider-handle::after {
+  box-shadow: 0 0 0 4px var(--light-blue) !important;
+}
+.ant-tooltip-inner {
+  color: var(--blue) !important;
+}
+
+.a + div{
+  top: 0 !important;
+}
